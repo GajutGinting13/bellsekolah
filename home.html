@@ -10,6 +10,9 @@ body{
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
     background-color: #e5e5e5;
+    padding: 0;
+    min-height: 105vh;
+    position: relative;
 }
 .head{
     text-align: end;
@@ -67,6 +70,15 @@ body{
     color: white;
     letter-spacing: 3px;
 }
+footer{
+    background-color: #2b2d42;
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
 </style>
 <body>
     <div class="head">
@@ -84,13 +96,15 @@ body{
             <div id="clock"></div>
         </div>
         <div class="aksi-waktu" style="text-align: center;">
-            <button class="btn-waktu" style="margin-top: 10px;">Set Waktu Sekarang</button>
+            <form method="get">
+                <button class="btn-waktu" style="margin-top: 10px;" name="waktu-sekarang" id="waktu-sekarang">Set Waktu Sekarang</button>
+            </form>
             <input type="time" id="waktu-custom" class="custom-w">
             <button onclick="konversiKeFormat24Jam()" class="custom-w">Custom Waktu</button>
         </div>
         <hr>
         <div class="setting-hari">
-            <a href="#"><button class="btn-hari">Senin</button></a>
+            <a href="senin.html"><button class="btn-hari">Senin</button></a>
             <a href="#"><button class="btn-hari">Selasa</button></a>
             <a href="#"><button class="btn-hari">Rabu</button></a>
             <a href="#"><button class="btn-hari">Kamis</button></a>
@@ -98,7 +112,9 @@ body{
             <a href="#"><button class="btn-hari">Sabtu</button></a>
         </div>
     </div>
-
+    <footer>
+        <p>Hak Cipta &copy; <span id="copyright"></span> Gajut Doin Duta Ginting</p>
+    </footer>
     <script>
         var id = sessionStorage.getItem('sesson');
         if(id !== "1"){
@@ -117,11 +133,17 @@ body{
             var now = new Date();
             var hours = now.getHours();
             var minutes = now.getMinutes();
+            var tanggal = now.getDate();
+            var bulan = now.getMonth();
             var seconds = now.getSeconds();
+            var tahun = now.getFullYear();
             var time = hours.toString().padStart(2, '0') + ':' + minutes.toString().padStart(2, '0') + ':' + seconds.toString().padStart(2, '0');
             var hari = now.toLocaleDateString('id-ID', { weekday: 'long' });
             document.getElementById("clock").textContent = time;
             document.getElementById("hari").textContent = hari;
+            document.getElementById('copyright').textContent = tahun;
+            // document.getElementById('waktu-sekarang').value = tahun.toString() + ',' + bulan.toString() + ',' + tanggal.toString() + ',' +  hours.toString() + ',' + minutes.toString() + ',' + seconds.toString();
+            document.getElementById('waktu-sekarang').value = tahun.toString() +','+ bulan.toString() + tanggal.toString() + hours.toString()+ minutes.toString()+ seconds.toString();
         }
         function konversiKeFormat24Jam() {
             var inputWaktu = document.getElementById("waktu-custom").value;
