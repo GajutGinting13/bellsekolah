@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+</head>
+<style>
+body{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    background-color: #e5e5e5;
+}
+.head{
+    text-align: end;
+    background-color: #003049;
+    height: 40px;
+}
+.btn-logout{
+    height: 30px;
+    width: 100px;
+    background-color: #fdf0d5;
+    margin: 5px;
+    border-radius: 5px;
+    font-weight: bold;
+    font-weight: bold;
+}
+.container{
+    background-color: #a8dadc;
+}
+.waktu-real{
+    background-color: #003049;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#clock, #hari{
+    font-size: 30px;
+    font-weight: bold;
+    color: white;
+}
+.btn-waktu{
+    width: 100%;
+    height: 50px;
+    font-size: 20px;
+    border-radius: 5px;
+}
+.custom-w{
+    height: 50px;
+    width: 48%;
+    margin-top: 10px;
+    font-size: 20px;
+    border-radius: 5px;
+}
+.setting-hari{
+    text-align: center;
+}
+.btn-hari{
+    height: 60px;
+    width: 48%;
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 10px;
+    border-radius: 5px;
+    background-color: #eb5e28;
+    color: white;
+    letter-spacing: 3px;
+}
+</style>
+<body>
+    <div class="head">
+        <button onclick="logout();" class="btn-logout">LOGOUT</button>
+    </div>
+    <div class="container">
+        <div class="judul">
+            <h1 style="margin: 0 20px;padding-top: 80px;">Selamat Datang</h1>
+            <h4 style="margin: 0 40px;padding-bottom: 80px;">Aplikasi Bell Sekolah Otomatis</h4>
+        </div>
+    </div>
+    <div class="contain">
+        <div class="waktu-real">
+            <div id="hari" style="margin-right: 10px;"></div>
+            <div id="clock"></div>
+        </div>
+        <div class="aksi-waktu" style="text-align: center;">
+            <button class="btn-waktu" style="margin-top: 10px;">Set Waktu Sekarang</button>
+            <input type="time" id="waktu-custom" class="custom-w">
+            <button onclick="konversiKeFormat24Jam()" class="custom-w">Custom Waktu</button>
+        </div>
+        <hr>
+        <div class="setting-hari">
+            <a href="#"><button class="btn-hari">Senin</button></a>
+            <a href="#"><button class="btn-hari">Selasa</button></a>
+            <a href="#"><button class="btn-hari">Rabu</button></a>
+            <a href="#"><button class="btn-hari">Kamis</button></a>
+            <a href="#"><button class="btn-hari">Jum'at</button></a>
+            <a href="#"><button class="btn-hari">Sabtu</button></a>
+        </div>
+    </div>
+
+    <script>
+        var id = sessionStorage.getItem('sesson');
+        if(id !== "1"){
+            alert("Harap Login Terlebih Dahulu");
+            window.location.href = "index.html";
+        }
+        function logout(){
+            var konfir = confirm("Apakah Anda Yakin Ingin Keluar??");
+            if (konfir){
+                alert('Berhasil Keluar');
+                sessionStorage.setItem("sesson", "0");
+                window.location.href = "index.html";
+            }
+        }
+        function updateClock() {
+            var now = new Date();
+            var hours = now.getHours();
+            var minutes = now.getMinutes();
+            var seconds = now.getSeconds();
+            var time = hours.toString().padStart(2, '0') + ':' + minutes.toString().padStart(2, '0') + ':' + seconds.toString().padStart(2, '0');
+            var hari = now.toLocaleDateString('id-ID', { weekday: 'long' });
+            document.getElementById("clock").textContent = time;
+            document.getElementById("hari").textContent = hari;
+        }
+        function konversiKeFormat24Jam() {
+            var inputWaktu = document.getElementById("waktu-custom").value;
+            var jamMenit = inputWaktu.split(":");
+            var jam = parseInt(jamMenit[0], 10);
+            var menit = jamMenit[1];
+            var waktu24Jam = jam.toString().padStart(2, '0') + ':' + menit + ':' + '00';  
+            
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+    </script>
+</body>
+
+</html>
